@@ -30,24 +30,6 @@ class FuncEnum(Enum):
             return self.func(*args, **kwargs)
             
 
-class Activations(FuncEnum):
-    RELU = (
-        lambda x: np.max([0, x]),
-        lambda x: 0 if x <= 0 else 1
-    )
-    LINEAR = (
-        lambda x: x,
-        lambda _: 1
-    )
-    TANH = (
-        lambda x: np.tanh(x),
-        lambda x: 1 - np.tanh(x)**2
-    )
-    SIGMOID = (
-        lambda x: 1 / (1 + np.exp(-x)),
-        lambda x: 1 / (1 + np.exp(-x)) * \
-             (1 - 1 / (1 + np.exp(-x)))
-    )
 
 class Loss(FuncEnum):
     SQUARE = (
