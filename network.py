@@ -31,7 +31,7 @@ class Network():
             for b in layer_b:
                 link = Weight(a, b)
                 a.outputs.append(link)
-                b.outputs.append(link)
+                b.inputs.append(link)
                 self.links.append(link)
 
     def get_loss(self, targets: list[float]):
@@ -69,7 +69,7 @@ class Network():
             # (2) compute derivative w.r.t. weight coming into node
             for node in layer:
                 for link in node.inputs:
-                    link.errorDer = node.inputDer * link.src.item()
+                    link.errorDer = node.inputDer * link.src.output
                     link.accErrorDer += link.errorDer
                     link.numAccumulatedDers += 1
 

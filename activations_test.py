@@ -10,6 +10,11 @@ class TestActivations(unittest.TestCase):
         self.assertEqual(relu.grad(-1), 0)
         self.assertEqual(relu.grad(0), 0)
         self.assertEqual(relu.grad(1), 1)
+    
+    def test_linear(self):
+        lin = LINEAR()
+        self.assertEqual(lin.func(4), 4)
+        self.assertEqual(lin.grad(4), 1)
 
 if __name__ == '__main__':
     unittest.main()

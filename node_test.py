@@ -15,6 +15,18 @@ class TestNode(unittest.TestCase):
         weight = Weight(a, b)
         self.assertGreaterEqual(weight.weight, -0.5)
         self.assertLessEqual(weight.weight, 0.5)
+        weight_b = Weight(a, b)
+        self.assertNotEqual(weight.weight, weight_b.weight)
+        weight_set = Weight(a, b, weight=3.)
+        self.assertEqual(weight_set.weight, 3.)
+
+    def test_lin_reg(self):
+        a = Node()
+        b = Node()
+        w = Weight(a, b)
+        a.inputs.append(w)
+        b.inputs.append(w)
+        pass
     
 if __name__ == '__main__':
     unittest.main()
