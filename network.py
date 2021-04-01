@@ -2,6 +2,7 @@ import numpy as np
 from activations import Activation, RELU, TANH
 from losses import Loss, SQUARE
 from node import Node, Weight
+from random import sample
 
 class Network():
     def __init__(self,
@@ -100,3 +101,23 @@ class Network():
                             link.accErrorDer
                         link.accErrorDer = 0
                         link.numAccumulatedDers = 0
+
+    def sample_dataset(self, data, batch_size):
+        while True:
+            yield sample(data, batch_size)
+        
+    def fit_batch(self, batch, lr):
+        loss = 0
+        for x, y in batch:
+            self.forward(x)
+            loss += self.get_loss(y)
+            self.backward(y)
+        self.learn(lr=lr)
+        return loss
+
+    # def fit(self, data, batch_size=32, lr=0.03, epochs=50):
+    #     losses = []
+    #     for batch in self.sample_dataset(data, batch_size):
+    #         loss = self.fit_batch(batch, lr)
+    #         losses.append(loss)
+    #     return losses

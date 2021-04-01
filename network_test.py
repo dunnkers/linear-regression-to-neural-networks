@@ -3,6 +3,7 @@ from network import Network
 import numpy as np
 from activations import LINEAR, RELU
 from itertools import cycle
+from random import sample
 
 class TestNetwork(unittest.TestCase):
     def setUp(self):
@@ -47,6 +48,8 @@ class TestNetwork(unittest.TestCase):
         self.assertAlmostEqual(a_, a, places=0)
         self.assertAlmostEqual(b_, b, places=0)
 
+    # TODO: analyze for what weights it converges/diverges.
+
     def test_xor(self):
         """ y = ax + b """
         network = Network([2, 2, 1],
@@ -54,15 +57,19 @@ class TestNetwork(unittest.TestCase):
             outputActivation=LINEAR())
         X = [[0, 0], [0, 1], [1, 0], [1, 1]]
         Y = [[0], [1], [1], [0]]
-        # data = zip(X, Y) # USE `cycle`
-        for i in range(20000):
-            for x, y in zip(X, Y):
-                network.forward(x)
-                network.backward(y)
-            network.learn(lr=0.03)
+        data = list(zip(X, Y))
+        batch_size = 3
+        i = 0
+        for batch in network.sample_dataset(data, batch_size):
+            loss = network.fit_batch(batch, lr=0.03)
+            
             a_ = [l.weight for l in network.links]
             b__ = lambda l: [n.bias for n in l]
             b_ = [b__(l) for l in network.layers]
+            i += 1
+            if loss < 1e-5 or i > 10000:
+                break
+        print(f'finished {i} epochs.')
         for x, y in zip(X, Y):
             pred = network.forward(x)[0].output
             print(f'pred={pred}, gt={y}')
