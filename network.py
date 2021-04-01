@@ -18,7 +18,7 @@ class Network():
             self.layers.append(nodes)
         self.links: list[Weight] = []
         self.link_layers()
-        self.loss_func = loss
+        self.loss = loss
 
     def link_layers(self):
         curr_layers = self.layers[:-1]
@@ -27,18 +27,19 @@ class Network():
             self.fully_connected(curr_layer, next_layer)
     
     def fully_connected(self, layer_a: list[Node], layer_b: list[Node]):
-        for a, b in zip(layer_a, layer_b):
-            link = Weight(a, b)
-            a.outputs.append(link)
-            b.outputs.append(link)
-            self.links.append(link)
+        for a in layer_a:
+            for b in layer_b:
+                link = Weight(a, b)
+                a.outputs.append(link)
+                b.outputs.append(link)
+                self.links.append(link)
 
     def get_loss(self, targets: list[float]):
         output_layer = self.layers[-1]
         assert(len(targets) == len(output_layer))
         loss = 0
         for node, y in zip(output_layer, targets):
-            loss += self.loss_func.loss(node.output, y)
+            loss += self.loss.loss(node.output, y)
         return loss
 
     def forward(self, inputs: list[float]):
@@ -53,7 +54,7 @@ class Network():
 
     def backward(self, target: list[float]):
         for node, yi in zip(self.layers[-1], target):
-            node.outputDer = self.loss_func.grad(node.output, yi)
+            node.outputDer = self.loss.grad(node.output, yi)
 
         rng = list(reversed(range(len(self.layers))))[:-1]
         for i in rng:
@@ -87,36 +88,15 @@ class Network():
             for node in layer:
                 # update bias
                 if node.numAccumulatedDers > 0:
-                    node.bias -= lr * node.accInputDer / \
-                        node.numAccumulatedDers
+                    node.bias -= (lr / node.numAccumulatedDers) * \
+                        node.accInputDer
                     node.accInputDer = 0
                     node.numAccumulatedDers = 0
 
                 # update weights coming into this node
                 for link in node.inputs:
-                    if link.numAccumulatedDers <= 0:
-                        continue
-                    link.weight -= (lr / link.numAccumulatedDers) * \
-                        link.accErrorDer
-                    link.accErrorDer = 0
-                    link.numAccumulatedDers = 0
-
-    # def fit(self, ds, epochs=100, loss_threshold=None, 
-    #             batch_size=None,
-    #             lr=0.03, cb=lambda x, y: 0):
-    #     samples = len(ds)
-    #     batch = samples if batch_size == None else batch_size
-    #     iters = samples * epochs if loss_threshold == None else 1e10
-    #     for data, num in ds.generate(iters):
-    #         x, y = data
-    #         loss = 0
-    #         self.forward(x)
-    #         loss += self.get_loss(y)
-    #         self.backward(y)
-    #         if num % batch == 0:
-    #             self.learn(lr=lr)
-    #         if num % batch == 0:
-    #             cb(num/batch, loss)
-    #             if loss_threshold != None and loss < loss_threshold:
-    #                 break
-    #             loss = 0              
+                    if link.numAccumulatedDers > 0:
+                        link.weight -= (lr / link.numAccumulatedDers) * \
+                            link.accErrorDer
+                        link.accErrorDer = 0
+                        link.numAccumulatedDers = 0
