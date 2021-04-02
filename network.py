@@ -2,7 +2,8 @@ import numpy as np
 from activations import Activation, RELU, TANH
 from losses import Loss, SQUARE
 from node import Node, Weight
-from random import sample
+from random import choice
+from itertools import islice
 
 class Network():
     def __init__(self,
@@ -102,10 +103,12 @@ class Network():
                         link.accErrorDer = 0
                         link.numAccumulatedDers = 0
 
-    def sample_dataset(self, data, batch_size):
-        while True:
-            yield sample(data, batch_size)
-        
+    def sample_dataset(self, data):
+        while True: yield choice(data)
+    
+    def sample_batch(self, data, batch_size):
+        return islice(self.sample_dataset(data), batch_size)
+
     def fit_batch(self, batch, lr):
         loss = 0
         for x, y in batch:
@@ -115,9 +118,11 @@ class Network():
         self.learn(lr=lr)
         return loss
 
-    # def fit(self, data, batch_size=32, lr=0.03, epochs=50):
-    #     losses = []
-    #     for batch in self.sample_dataset(data, batch_size):
-    #         loss = self.fit_batch(batch, lr)
-    #         losses.append(loss)
-    #     return losses
+    def fit(self, X, Y, batch_size=32, lr=0.03, max_epochs=1000, tol=1e-4):
+        losses = []
+        data = list(zip(X, Y))
+        for epoch in range(max_epochs):
+            batch = self.sample_batch(data, batch_size)
+            loss = self.fit_batch(batch, lr)
+            losses.append(loss)
+        return losses
