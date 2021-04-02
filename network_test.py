@@ -57,23 +57,14 @@ class TestNetwork(unittest.TestCase):
             outputActivation=LINEAR())
         X = [[0, 0], [0, 1], [1, 0], [1, 1]]
         Y = [[0], [1], [1], [0]]
-        data = list(zip(X, Y))
-        batch_size = 3
-        i = 0
-        for batch in network.sample_dataset(data, batch_size):
-            loss = network.fit_batch(batch, lr=0.03)
-            
-            a_ = [l.weight for l in network.links]
-            b__ = lambda l: [n.bias for n in l]
-            b_ = [b__(l) for l in network.layers]
-            i += 1
-            if loss < 1e-5 or i > 10000:
-                break
-        print(f'finished {i} epochs.')
+        losses = network.fit(X, Y, lr=0.03)
+        
+        print(f'finished {len(losses)} epochs. loss = {losses[-1]}')
         for x, y in zip(X, Y):
             pred = network.forward(x)[0].output
             print(f'pred={pred}, gt={y}')
             self.assertAlmostEqual(pred, y[0], places=0)
+        pass
 
 if __name__ == '__main__':
     unittest.main()

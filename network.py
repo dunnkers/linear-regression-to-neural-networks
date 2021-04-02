@@ -112,11 +112,19 @@ class Network():
         self.learn(lr=lr)
         return loss
 
-    def fit(self, X, Y, batch_size=32, lr=0.03, max_epochs=1000, tol=1e-4):
+    def fit(self, X, Y, batch_size=32, lr=0.03, max_epochs=5000, tol=1e-4,
+        n_iter_no_change=25):
         losses = []
         data = list(zip(X, Y))
+        no_change = 0
         for epoch in range(max_epochs):
             batch = [choice(data) for i in range(batch_size)]
             loss = self.fit_batch(batch, lr)
+            if len(losses) and abs(losses[-1] - loss) < tol:
+                no_change += 1
+            else:
+                no_change = 0
+            if no_change > n_iter_no_change:
+                break
             losses.append(loss)
         return losses
