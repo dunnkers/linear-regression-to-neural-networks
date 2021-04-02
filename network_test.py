@@ -37,14 +37,12 @@ class TestNetwork(unittest.TestCase):
         a, b = 3, 5
         f = lambda x: a * x + b + e()
         Y = [f(x) for x in X]
-        for i in range(1000):
-            for x, y in zip(X, Y):
-                network.forward([x])
-                network.backward([y])
-            network.learn(lr=0.1)
-            a_ = network.links[0].weight
-            b_ = network.layers[0][0].bias
-            b_ = network.layers[1][0].bias
+        X = np.expand_dims(X, axis=1)
+        Y = np.expand_dims(Y, axis=1)
+        network.fit(X, Y, lr=0.1)
+        a_ = network.links[0].weight
+        b_ = network.layers[0][0].bias
+        b_ = network.layers[1][0].bias
         self.assertAlmostEqual(a_, a, places=0)
         self.assertAlmostEqual(b_, b, places=0)
 
