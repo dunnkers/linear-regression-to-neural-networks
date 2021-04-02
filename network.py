@@ -103,12 +103,6 @@ class Network():
                         link.accErrorDer = 0
                         link.numAccumulatedDers = 0
 
-    def sample_dataset(self, data):
-        while True: yield choice(data)
-    
-    def sample_batch(self, data, batch_size):
-        return islice(self.sample_dataset(data), batch_size)
-
     def fit_batch(self, batch, lr):
         loss = 0
         for x, y in batch:
@@ -122,7 +116,7 @@ class Network():
         losses = []
         data = list(zip(X, Y))
         for epoch in range(max_epochs):
-            batch = self.sample_batch(data, batch_size)
+            batch = [choice(data) for i in range(batch_size)]
             loss = self.fit_batch(batch, lr)
             losses.append(loss)
         return losses
