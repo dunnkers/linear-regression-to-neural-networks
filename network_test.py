@@ -1,9 +1,10 @@
 import unittest
 from network import Network
 import numpy as np
-from activations import LINEAR, RELU
+from activations import LINEAR, RELU, SIGMOID
 from itertools import cycle
 from random import sample
+from sklearn.datasets import make_classification
 
 class TestNetwork(unittest.TestCase):
     def setUp(self):
@@ -62,6 +63,16 @@ class TestNetwork(unittest.TestCase):
             pred = network.forward(x)[0].output
             print(f'pred={pred}, gt={y}')
             self.assertAlmostEqual(pred, y[0], places=0)
+        pass
+
+    def test_logistic(self):
+        X, y = make_classification(
+            n_features=2, n_informative=1,
+            n_redundant=0, n_clusters_per_class=1,
+            random_state=42)
+        nn = Network([2, 1], activation=LINEAR(),
+                     outputActivation=SIGMOID())
+        losses = nn.fit(X, y)
         pass
 
 if __name__ == '__main__':

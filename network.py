@@ -37,8 +37,9 @@ class Network():
                 self.links.append(link)
 
     def get_loss(self, targets: list[float]):
+        # targets = np.array(targets) # ensure array
         output_layer = self.layers[-1]
-        assert(len(targets) == len(output_layer))
+        assert(np.size(targets) == len(output_layer))
         loss = 0
         for node, y in zip(output_layer, targets):
             loss += self.loss.loss(node.output, y)
