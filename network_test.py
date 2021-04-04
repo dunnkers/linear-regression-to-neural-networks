@@ -26,7 +26,10 @@ class TestNetwork(unittest.TestCase):
         self.network.backward([1, 2])
 
     def test_learn(self):
+        # w = [l.weight for l in self.network.links]
         self.network.learn()
+        # w2 = [l.weight for l in self.network.links]
+        # self.assertNotEqual(w, w2)
     
     def test_lin_reg(self):
         """ y = ax + b """
@@ -41,9 +44,8 @@ class TestNetwork(unittest.TestCase):
         X = np.expand_dims(X, axis=1)
         Y = np.expand_dims(Y, axis=1)
         network.fit(X, Y, lr=0.1)
-        a_ = network.links[0].weight
-        b_ = network.layers[0][0].bias
-        b_ = network.layers[1][0].bias
+        a_ = network.weights.item()
+        b_ = network.biases[1].item()
         self.assertAlmostEqual(a_, a, places=0)
         self.assertAlmostEqual(b_, b, places=0)
 
@@ -59,10 +61,10 @@ class TestNetwork(unittest.TestCase):
         losses = network.fit(X, Y, lr=0.03)
         
         print(f'finished {len(losses)} epochs. loss = {losses[-1]}')
-        for x, y in zip(X, Y):
-            pred = network.forward(x)[0].output
-            print(f'pred={pred}, gt={y}')
-            self.assertAlmostEqual(pred, y[0], places=0)
+        Ŷ = network.predict(X)
+        print(f'Ŷ = {Ŷ}')
+        for ŷ, y in zip(Ŷ, Y):
+            self.assertAlmostEqual(ŷ[0], y[0], places=0)
         pass
 
     def test_logistic(self):
@@ -70,9 +72,10 @@ class TestNetwork(unittest.TestCase):
             n_features=2, n_informative=1,
             n_redundant=0, n_clusters_per_class=1,
             random_state=42)
+        Y = np.expand_dims(y, axis=1)
         nn = Network([2, 1], activation=LINEAR(),
                      outputActivation=SIGMOID())
-        losses = nn.fit(X, y)
+        losses = nn.fit(X, Y)
         pass
 
 if __name__ == '__main__':

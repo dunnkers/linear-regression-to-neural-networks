@@ -37,7 +37,7 @@ class Network():
                 self.links.append(link)
 
     def get_loss(self, targets: list[float]):
-        # targets = np.array(targets) # ensure array
+        targets = np.array(targets) # ensure array
         output_layer = self.layers[-1]
         assert(np.size(targets) == len(output_layer))
         loss = 0
@@ -53,7 +53,8 @@ class Network():
         for layer in self.layers[1:]:
             for node in layer:
                 node.update_output()
-        return self.layers[-1] # output layer
+
+        return [node.output for node in self.layers[-1]]
 
     def backward(self, target: list[float]):
         for node, yi in zip(self.layers[-1], target):
@@ -113,8 +114,9 @@ class Network():
         self.learn(lr=lr)
         return loss
 
-    def fit(self, X, Y, batch_size=32, lr=0.03, max_epochs=5000, tol=1e-4,
-        n_iter_no_change=25):
+    def fit(self, X: list[list[float]], Y: list[list[float]],
+        batch_size=32, lr=0.03, max_epochs=5000,
+        tol=1e-4, n_iter_no_change=25):
         losses = []
         data = list(zip(X, Y))
         no_change = 0
@@ -129,3 +131,25 @@ class Network():
                 break
             losses.append(loss)
         return losses
+
+    def predict(self, X: list[list[float]]):
+        Ŷ = [self.forward(x) for x in X]
+        return np.array(Ŷ)
+
+    @property
+    def weights(self):
+        # weight vector: one node
+        w = lambda node:  [output.weight for output in node.outputs]
+        # weight matrix: one layer
+        W = lambda layer: [w(node) for node in layer]
+        # network weights: all layers
+        θ = [W(layer) for layer in self.layers[:-1]]
+        return np.array(θ)
+
+    @property
+    def biases(self):
+        # bias vector: one layer
+        b = lambda layer: [node.bias for node in layer]
+        # network biases: all layers
+        B = [b(layer) for layer in self.layers]
+        return np.array(B)
