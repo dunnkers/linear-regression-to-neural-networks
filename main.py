@@ -2,7 +2,8 @@
 # # From Linear Regression to Neural Networks
 # These days there exists much hype around sophisticated machine learning methods such as Neural Networks. However, we do not always require the full complexity of a Neural Network: sometimes, a simpler model will do the job just fine. In this project, we take a journey starting from the most fundamental statistical machinery to model data distributions - linear regression and logistic classification - and then explain the benefits of constructing more complex models, such as Support Vector Machines and Neural Networks. We will not shy away from the math, whilst still working with tangible examples at all times: we will work with real world datasets and we'll get to apply our models in code right in this document as we go on. Let's start!
 
-
+#%% [markdown]
+# Say we 
 
 #%%
 import numpy as np
