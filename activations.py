@@ -14,7 +14,7 @@ class LINEAR(Activation):
 
 class TANH(Activation):
     def func(self, x: float) -> float: return np.tanh(x)
-    def grad(self, x: float) -> float: return 1. - np.tanh(x)**2
+    def grad(self, x: float) -> float: return 1. - np.tanh(x) * np.tanh(x)
 
 class SIGMOID(Activation):
     def func(self, x: float) -> float: return 1. / (1 + np.exp(-x))

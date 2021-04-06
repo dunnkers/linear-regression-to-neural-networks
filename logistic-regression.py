@@ -1,14 +1,14 @@
 #%%
+
+
+#%%
 from activations import SIGMOID, LINEAR
 from network import Network
-
 import numpy as np
 from sklearn.datasets import make_classification, make_circles
 from sklearn.linear_model import LogisticRegression
 import seaborn as sns
 import matplotlib.pyplot as plt
-
-sigmoid = SIGMOID()
 
 #%%
 X, y = make_classification(n_features=2, n_informative=1,
@@ -26,7 +26,7 @@ xx, yy = np.meshgrid(xaxis, yaxis)
 def decision_boundary(clf):
     zz = np.apply_along_axis(clf, 2, np.dstack([xx, yy]))
     plt.contourf(xx, yy, zz, alpha=0.4)
-    plt.scatter(X[:, 0], X[:, 1], c=y)
+    plt.scatter(X[:, 0], X[:, 1], c=Y[:, 0])
 decision_boundary(lambda x: 0)
 
 #%%
@@ -49,6 +49,7 @@ plt.title(f'w = {lr.coef_} \n b = {lr.intercept_}')
 #%%
 X, y = make_circles(random_state=42, noise=0.1, factor=0.5)
 Y = np.expand_dims(y, axis=1)
+plt.scatter(X[:, 0], X[:, 1], c=Y[:, 0])
 
 #%%
 losses = nn.fit(X, Y)
@@ -65,43 +66,102 @@ nn = Network([2, 4, 3, 1])
 losses = nn.fit(X, Y)
 decision_boundary(lambda x: nn.predict([x]).item())
 
-# #%%
-# X_ = np.insert(X, 0, 1, axis=1)
-# X_
+#%%
+from sklearn.datasets import load_diabetes, load_iris
+X, y = load_diabetes(return_X_y=True)
+X.shape
+df = sns.load_dataset('car_crashes')
+sns.pairplot(df)
 
-# #%% [markdown]
-# # Instatiate parameter θ as a column vector.
+#%%
+from sklearn.datasets import load_breast_cancer
+data = load_diabetes(as_frame=True)
+df = data['frame']
+sns.pairplot(df, hue='target')
 
-# #%%
-# n, p = X.shape
-# θ = np.zeros((p + 1, 1))
-# θ
+#%%
+penguins = sns.load_dataset('penguins')
+sns.pairplot(penguins, hue='species')
 
-# #%% Compute cost
-# def compute_cost(X, y, θ):
-#     m = len(y)
-#     h = sigmoid.func(X @ θ)
-#     epsilon = 1e-5
-#     return (1/m)*(  ( -y).T @ np.log(  h + epsilon) \
-#         -
-#                     (1-y).T @ np.log(1-h + epsilon))
-# compute_cost(X_, y, θ)
+#%%
+penguins = sns.load_dataset('penguins')
+# penguins['is_chinstrap'] = penguins['species'] == 'Chinstrap'
+is_chinstrap = lambda species: \
+    'Chinstrap' if species == 'Chinstrap' else 'Other'
+penguins['Penguin'] = penguins['species'].apply(is_chinstrap)
+sns.pairplot(penguins, hue='Penguin')
 
-# #%%
-# def gradient_descent(X, y, θ, lr=0.03, iters=3000):
-#     m = len(y)
-#     cost_history = np.zeros((iters, 1))
+#%%
+sns.scatterplot(data=penguins,
+    x='bill_length_mm',
+    y='bill_depth_mm',
+    hue='Penguin')
 
-#     for i in range(iters):
-#         θ = θ - (lr/m) * (X.T @ (sigmoid.func(X @ θ) - y))
-#         cost_history[i] = compute_cost(X, y, θ).sum().item()
-#     return (cost_history, θ)
+#%%
+import pandas as pd
+X = penguins[['bill_length_mm', 'bill_depth_mm']].values
+Y, names = pd.factorize(penguins['Penguin'].values)
+Y = np.expand_dims(Y, axis=1)
+Y
 
-# (hist, θ_opt) = gradient_descent(X_, y, θ)
-# hist.shape, θ_opt.shape
+#%%
+nn = Network([2, 3, 1])
+losses = nn.fit(X, Y)
+decision_boundary(lambda x: nn.predict([x]).item())
 
-# #%%
-# sns.lineplot(x=range(len(hist)), y=hist[:, 0])
+#%%
+losses
 
-# #%%
-# θ_opt
+#%%
+penguins['species'] == 'Chinstrap'
+
+#%%
+from sklearn.datasets import load_iris
+data = load_iris(as_frame=True)
+df = data['frame']
+sns.pairplot(df, hue='target')
+
+#%%
+from sklearn.datasets import load_wine
+data = load_wine(as_frame=True)
+df = data['frame']
+sns.pairplot(df, hue='target')
+
+#%%
+df['target']
+
+
+#%%
+sns.scatterplot(data=penguins,
+    x='bill_length_mm', y='flipper_length_mm',
+    hue='species')
+
+#%%
+X = penguins[['bill_length_mm', 'flipper_length_mm']].values
+Y = penguins[['species']].values
+Y
+
+#%%
+import pandas as pd
+Y, _ = pd.factorize(penguins['species'])
+Y
+Y = np.expand_dims(Y, axis=1)
+
+#%%
+Y = pd.get_dummies(Y).values
+
+#%%
+nn = Network([2, 4, 3, 3])
+losses = nn.fit(X, Y)
+
+#%%
+plt.plot(range(len(losses)), losses)
+
+#%%
+decision_boundary(lambda x: nn.predict([x]).item())
+
+# penguins['species']
+
+
+#%%
+X, y = make_

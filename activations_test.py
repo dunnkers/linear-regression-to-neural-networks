@@ -16,5 +16,9 @@ class TestActivations(unittest.TestCase):
         self.assertEqual(lin.func(4), 4)
         self.assertEqual(lin.grad(4), 1)
 
+    def test_tanh(self):
+        tanh = TANH()
+        pass
+
 if __name__ == '__main__':
     unittest.main()
