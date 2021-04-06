@@ -20,14 +20,14 @@ y: np.ndarray
 plt.scatter(X[:, 0], X[:, 1], c=Y[:, 0])
 
 #%%
-xaxis = np.linspace(X[:, 0].min(), X[:, 0].max(), 100)
-yaxis = np.linspace(X[:, 1].min(), X[:, 1].max(), 100)
-xx, yy = np.meshgrid(xaxis, yaxis)
-def decision_boundary(clf):
+def decision_boundary(X, clf):
+    xaxis = np.linspace(X[:, 0].min(), X[:, 0].max(), 100)
+    yaxis = np.linspace(X[:, 1].min(), X[:, 1].max(), 100)
+    xx, yy = np.meshgrid(xaxis, yaxis)
     zz = np.apply_along_axis(clf, 2, np.dstack([xx, yy]))
     plt.contourf(xx, yy, zz, alpha=0.4)
-    plt.scatter(X[:, 0], X[:, 1], c=Y[:, 0])
-decision_boundary(lambda x: 0)
+decision_boundary(X, lambda x: 0)
+plt.scatter(X[:, 0], X[:, 1], c=Y[:, 0])
 
 #%%
 nn = Network([2, 1], activation=LINEAR(),
