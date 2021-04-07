@@ -26,6 +26,7 @@ class TestNode(unittest.TestCase):
         w = Weight(a, b)
         a.inputs.append(w)
         b.inputs.append(w)
+        inputs = [Node() for i in range(100)]
         pass
     
 if __name__ == '__main__':

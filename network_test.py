@@ -1,10 +1,27 @@
 import unittest
-from network import Network
+from network import Network, Layer
+from node import Node, Weight
 import numpy as np
 from activations import LINEAR, RELU, SIGMOID
 from itertools import cycle
 from random import sample
 from sklearn.datasets import make_classification
+
+class TestLayer(unittest.TestCase):
+    def test_layer(self):
+        p = 2
+        nodes = [Node() for i in range(p)]
+        input_layer = Layer(nodes)
+        output_node = Node()
+        output_layer = Layer([output_node])
+        for node in input_layer.nodes:
+            weight = Weight(node, output_node)
+            node.outputs.append(weight)
+        
+        input_layer.forward([10, 20])
+        output_layer.compute()
+        print(output_node.output)
+        pass
 
 class TestNetwork(unittest.TestCase):
     def setUp(self):
