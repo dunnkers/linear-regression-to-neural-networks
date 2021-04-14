@@ -2,9 +2,11 @@ build_dir='./build'
 
 rm -rf $build_dir
 mkdir $build_dir
+cp -avR src/* $build_dir
+cp -avR public/* $build_dir
 jupyter nbconvert \
-    ./src/*.ipynb \
+    ./build/*.ipynb \
     --to html \
     --output-dir $build_dir \
     --template ./node_modules/nbconvert-blog-template/blog
-cp -avR images $build_dir
+rm -rf $build_dir/*.ipynb
