@@ -47,27 +47,42 @@ data.dtypes
 peng = lambda x: 'Chinstrap' if x == 'Chinstrap' else 'Other'
 data['Penguin'] = data['species'].apply(peng)
 
+#%% [markdown]
+# Training/testing cross validation split. Reserve 1/4th of data for testing.
+
+#%%
+rs = np.random.RandomState(34)
+test = rs.choice(data.index, len(data) // 4)
+train = data.index[~data.index.isin(test)]
+data.loc[train, 'subset'] = 'Train'
+data.loc[test, 'subset'] = 'Test'
+data_train = data[data['subset'] == 'Train']
+data_test = data[data['subset'] == 'Test']
+data.groupby('subset').count()[['species']]
+
 # %%
 blue_colors = sns.color_palette("Paired", n_colors=2)
 sns.scatterplot(data=data_train, x='bill_depth_mm', y='bill_length_mm',
                 hue='Penguin', palette=blue_colors)
+
+#%%
+X_train = data_train[['bill_depth_mm', 'bill_length_mm']].values
+y_train = data_train['Penguin'].values
+X_test  = data_test[['bill_depth_mm', 'bill_length_mm']].values
+y_test  = data_test['Penguin'].values
 
 #%% [markdown]
 # Let's try to classify Chinstraps using a Neural Network. We'll use sklearn for this. Try a fit:
 
 # %%
 clf = MLPClassifier()
-X = data[['bill_depth_mm', 'bill_length_mm']].values
-y = data['Penguin'].values
-clf.fit(X, y)
+clf.fit(X_train, y_train)
 clf.n_iter_, clf.classes_, clf.loss_
 
 #%% [markdown]
 # Let's get more systematic. First, we'll do a cross-validation training/testing split.
 
 #%%
-X_train, X_test, y_train, y_test = train_test_split(X, y,
-    stratify=y, random_state=1)
 clf.fit(X_train, y_train)
 clf.score(X_test, y_test)
 
@@ -132,10 +147,9 @@ for i in pbar:
 # Collect results in a DataFrame and plot loss and accuracy.
 #%%
 results = pd.DataFrame.from_records(records, index='i')
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 5))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
 sns.lineplot(data=results, x='Iteration', y='Acc', hue='Subset', ax=ax1)
 sns.lineplot(data=results, x='Iteration', y='Loss', ax=ax2)
-
 
 #%% [markdown]
 # Plot decision region of last fit.
@@ -145,12 +159,13 @@ def decision_region(ax, zz):
                            levels=[0.495, 0.505], colors=['red'])
     plt.contourf(xx, yy, zz, alpha=0.4, cmap='Blues')
     sns.scatterplot(data=data, x='bill_depth_mm', y='bill_length_mm',
-                    hue='Penguin', palette=blue_colors, ax=ax)
+                    hue='Penguin', palette=blue_colors, ax=ax,
+                    style='subset', style_order=['Train', 'Test'])
+    ax.legend(bbox_to_anchor=(1.01, 1.025))
     
 fig = plt.figure()
 ax = fig.gca()
 decision_region(ax, zzz[-1])
-plt.colorbar()
 
 #%% [markdown]
 # We are going to create a range of images. Create a temporary folder for them.
