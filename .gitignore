@@ -3,3 +3,5 @@ __pycache__
 .python-version
 .DS_Store
 .ipynb_checkpoints
+node_modules
+build
