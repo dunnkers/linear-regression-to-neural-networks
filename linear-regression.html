@@ -14334,7 +14334,8 @@ h1, h2, h3, h4, h5, h6 {
 <h1 id="Linear-Regression">Linear Regression<a class="anchor-link" href="#Linear-Regression">&#182;</a></h1><p><a href="https://colab.research.google.com/github/dunnkers/linear-regression-to-neural-networks/blob/master/src/linear-regression.ipynb"><img src="./images/colab.svg" alt="Open In Colab"></a> 
 <a href="https://mybinder.org/v2/gh/dunnkers/linear-regression-to-neural-networks/HEAD?filepath=src%2Flinear-regression.ipynb"><img src="./images/binder.svg" alt="Binder"></a></p>
 <p>Notebook producing the figures in <a href="https://dunnkers.com/linear-regression-to-neural-networks">Linear Regression to Neural Networks</a>. Chapter on <strong>Linear Regression</strong>.</p>
-<p><small>For all source files, see [Github repository](https://github.com/dunnkers/linear-regression-to-neural-networks)</small>.</p>
+<blockquote><p>For all source files, see <a href="https://github.com/dunnkers/linear-regression-to-neural-networks">Github repository</a>.</p>
+</blockquote>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14343,7 +14344,7 @@ h1, h2, h3, h4, h5, h6 {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
@@ -14352,9 +14353,9 @@ h1, h2, h3, h4, h5, h6 {
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 <span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDRegressor</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s1">&#39;svg&#39;</span><span class="p">)</span>
-<span class="o">!</span>python --version
+<span class="err">!</span><span class="n">python</span> <span class="o">--</span><span class="n">version</span>
 </pre></div>
 
      </div>
@@ -14395,7 +14396,7 @@ h1, h2, h3, h4, h5, h6 {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;penguins&#39;</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;penguins&#39;</span><span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 <span class="n">data</span><span class="o">.</span><span class="n">dtypes</span>
 </pre></div>
@@ -14456,7 +14457,7 @@ dtype: object</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">34</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">rs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">34</span><span class="p">)</span>
 <span class="n">test</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">train</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">~</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">test</span><span class="p">)]</span>
 <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train</span><span class="p">,</span> <span class="s1">&#39;subset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Train&#39;</span>
@@ -14541,7 +14542,7 @@ dtype: object</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">long</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;body_mass_g&#39;</span><span class="p">],</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">long</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;body_mass_g&#39;</span><span class="p">],</span>
     <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;bill_depth_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;bill_length_mm&#39;</span><span class="p">,</span> <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">])</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">relplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">long</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;body_mass_g&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">,</span>
     <span class="n">facet_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sharex&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
@@ -17060,7 +17061,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">add_bias_term</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">add_bias_term</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">b</span><span class="p">,</span> <span class="n">X</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">X</span>
@@ -17111,7 +17112,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">β</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Y</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">β</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Y</span>
 <span class="n">β_train</span> <span class="o">=</span> <span class="n">β</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">)</span>
 <span class="n">β_train</span>
 </pre></div>
@@ -17158,7 +17159,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">RSS</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">β</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">β</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">β</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">RSS</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">β</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">β</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">β</span><span class="p">)</span>
 <span class="n">RSS</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">β_train</span><span class="p">)</span>
 </pre></div>
 
@@ -17202,7 +17203,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">MSE</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">β</span><span class="p">:</span> <span class="p">(</span><span class="n">RSS</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">MSE</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">β</span><span class="p">:</span> <span class="p">(</span><span class="n">RSS</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">β</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 <span class="n">err_train</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">β_train</span><span class="p">)</span>
 <span class="n">err_train</span>
 </pre></div>
@@ -17247,7 +17248,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">data_test</span><span class="p">[[</span><span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">X_test</span> <span class="o">=</span> <span class="n">data_test</span><span class="p">[[</span><span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">X_test</span> <span class="o">=</span> <span class="n">add_bias_term</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 <span class="n">Y_test</span> <span class="o">=</span> <span class="n">data_test</span><span class="p">[[</span><span class="s1">&#39;body_mass_g&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Y_test</span><span class="o">.</span><span class="n">shape</span>
@@ -17287,7 +17288,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">err_test</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">β_train</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">err_test</span> <span class="o">=</span> <span class="n">MSE</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">β_train</span><span class="p">)</span>
 <span class="n">err_test</span>
 </pre></div>
 
@@ -17325,7 +17326,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">β</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">β</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_axis</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x_axis</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
@@ -17376,7 +17377,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;body_mass_g&#39;</span><span class="p">,</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;body_mass_g&#39;</span><span class="p">,</span>
     <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;subset&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">hue_order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train&#39;</span><span class="p">,</span> <span class="s1">&#39;Test&#39;</span><span class="p">])</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ŷ</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Flipper length (millimeters)&#39;</span><span class="p">)</span>
@@ -19877,7 +19878,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">noised_dataset</span><span class="p">(</span><span class="n">p_ε</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">noised_dataset</span><span class="p">(</span><span class="n">p_ε</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Adds p_ε noise dimensions to design matrices.&quot;&quot;&quot;</span>
     <span class="n">X_train</span> <span class="o">=</span> <span class="n">data_train</span><span class="p">[[</span><span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
     <span class="n">ε</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">p_ε</span><span class="p">))</span>
@@ -19934,7 +19935,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">):</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
     <span class="n">coefs</span> <span class="o">=</span> <span class="n">estimator</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">)</span>
     <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -19998,7 +19999,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">n_experiments</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">n_experiments</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="k">yield</span> <span class="n">estimator</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
         
@@ -20030,9 +20031,9 @@ z
 
 
 
-<div id="dd8285a4-7e77-4a2e-bd7d-8d821af54326" class="jupyter-widgets jp-OutputArea-output ">
+<div id="8ce7a62d-48b9-4f42-a5db-39c0308a1a31" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('dd8285a4-7e77-4a2e-bd7d-8d821af54326');
+var element = document.getElementById('8ce7a62d-48b9-4f42-a5db-39c0308a1a31');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "f5b2633917d948c0ba8883bdc39f43b8", "version_major": 2, "version_minor": 0}
@@ -20052,9 +20053,9 @@ var element = document.getElementById('dd8285a4-7e77-4a2e-bd7d-8d821af54326');
 
 
 
-<div id="9bc61adc-d064-4e45-927b-6b73d567be53" class="jupyter-widgets jp-OutputArea-output ">
+<div id="806975f2-80a4-4cc9-9580-c02f1a39af52" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('9bc61adc-d064-4e45-927b-6b73d567be53');
+var element = document.getElementById('806975f2-80a4-4cc9-9580-c02f1a39af52');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "8b9f0b41c9bf4baeb2bfb406b3f79bb0", "version_major": 2, "version_minor": 0}
@@ -20073,7 +20074,7 @@ var element = document.getElementById('9bc61adc-d064-4e45-927b-6b73d567be53');
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ana_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">exp_ana</span> <span class="o">+</span> <span class="n">exp_ana_small</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">ana_res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">exp_ana</span> <span class="o">+</span> <span class="n">exp_ana_small</span><span class="p">)</span>
 <span class="n">molten</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">ana_res</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">])</span>
 <span class="n">molten</span> <span class="o">=</span> <span class="n">molten</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Time&#39;</span><span class="p">:</span> <span class="s1">&#39;Time (seconds)&#39;</span><span class="p">})</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -21062,7 +21063,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sgdreg</span> <span class="o">=</span> <span class="n">SGDRegressor</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_iter_no_change</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">sgdreg</span> <span class="o">=</span> <span class="n">SGDRegressor</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_iter_no_change</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
     <span class="n">penalty</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">eta0</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;invscaling&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">sgd_coefs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
@@ -21110,7 +21111,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">]</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">]</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 <span class="n">_</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Xbig_train</span><span class="o">.</span><span class="n">shape</span>
 <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -23524,7 +23525,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">exp_data</span> <span class="o">=</span> <span class="n">Xbig_train</span><span class="p">,</span> <span class="n">Xbig_test</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">exp_data</span> <span class="o">=</span> <span class="n">Xbig_train</span><span class="p">,</span> <span class="n">Xbig_test</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span>
 <span class="n">exp_sgd</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">n_experiments</span><span class="p">(</span><span class="n">est_sgd</span><span class="p">,</span> <span class="o">*</span><span class="n">exp_data</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 
@@ -23549,9 +23550,9 @@ z
 
 
 
-<div id="8bb55051-d0c0-4832-a045-cfc726570d7c" class="jupyter-widgets jp-OutputArea-output ">
+<div id="4099c7e5-eb77-44ce-b37c-45673d3c5582" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('8bb55051-d0c0-4832-a045-cfc726570d7c');
+var element = document.getElementById('4099c7e5-eb77-44ce-b37c-45673d3c5582');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "4f6edda92c9a4526ae0b1f17005e9d66", "version_major": 2, "version_minor": 0}
@@ -23576,7 +23577,7 @@ var element = document.getElementById('8bb55051-d0c0-4832-a045-cfc726570d7c');
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">results_fixed_p</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">exp_sgd</span> <span class="o">+</span> <span class="n">exp_ana</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">results_fixed_p</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">exp_sgd</span> <span class="o">+</span> <span class="n">exp_ana</span><span class="p">)</span>
 <span class="n">p</span> <span class="o">=</span> <span class="n">results_fixed_p</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -25534,7 +25535,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">results_some_p</span> <span class="o">=</span> <span class="p">[]</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">results_some_p</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">p_ε</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1500</span><span class="p">]:</span>
     <span class="n">Xbig_train</span><span class="p">,</span> <span class="n">Xbig_test</span> <span class="o">=</span> <span class="n">noised_dataset</span><span class="p">(</span><span class="n">p_ε</span><span class="p">)</span>
     <span class="n">exp_data</span> <span class="o">=</span> <span class="n">Xbig_train</span><span class="p">,</span> <span class="n">Xbig_test</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span>
@@ -25565,9 +25566,9 @@ z
 
 
 
-<div id="f1d8b4cd-fafa-46cc-99e0-b49560251942" class="jupyter-widgets jp-OutputArea-output ">
+<div id="70987b9c-a155-48e8-bc55-8fb6bffeaf31" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('f1d8b4cd-fafa-46cc-99e0-b49560251942');
+var element = document.getElementById('70987b9c-a155-48e8-bc55-8fb6bffeaf31');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "9f4b0161ed954087bcfb7317b188f9b8", "version_major": 2, "version_minor": 0}
@@ -25587,9 +25588,9 @@ var element = document.getElementById('f1d8b4cd-fafa-46cc-99e0-b49560251942');
 
 
 
-<div id="d62b2986-5e1a-4a90-8c0e-48eb158c2457" class="jupyter-widgets jp-OutputArea-output ">
+<div id="0929cdbe-af90-4795-8faf-4a7017622ff1" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('d62b2986-5e1a-4a90-8c0e-48eb158c2457');
+var element = document.getElementById('0929cdbe-af90-4795-8faf-4a7017622ff1');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "3bc9626a5f4d40fe903f0337ed2d0d65", "version_major": 2, "version_minor": 0}
@@ -25609,9 +25610,9 @@ var element = document.getElementById('d62b2986-5e1a-4a90-8c0e-48eb158c2457');
 
 
 
-<div id="916f65cc-7761-4fca-aa4d-9a885cba3702" class="jupyter-widgets jp-OutputArea-output ">
+<div id="63a40c0f-5136-4f62-9e7c-e34cd0c197d9" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('916f65cc-7761-4fca-aa4d-9a885cba3702');
+var element = document.getElementById('63a40c0f-5136-4f62-9e7c-e34cd0c197d9');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "f4b86a74562e45aea54cdaba96b0811a", "version_major": 2, "version_minor": 0}
@@ -25631,9 +25632,9 @@ var element = document.getElementById('916f65cc-7761-4fca-aa4d-9a885cba3702');
 
 
 
-<div id="ef681d3b-0774-46c9-8c6c-49d042db5303" class="jupyter-widgets jp-OutputArea-output ">
+<div id="6eadd668-8d4d-461b-af0d-cc810a32ccbf" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('ef681d3b-0774-46c9-8c6c-49d042db5303');
+var element = document.getElementById('6eadd668-8d4d-461b-af0d-cc810a32ccbf');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "c260e602a1114164a14b8ff076712629", "version_major": 2, "version_minor": 0}
@@ -25653,9 +25654,9 @@ var element = document.getElementById('ef681d3b-0774-46c9-8c6c-49d042db5303');
 
 
 
-<div id="5f79ce7c-d21e-4d38-8301-108d6baa18c6" class="jupyter-widgets jp-OutputArea-output ">
+<div id="d23e17a2-3e51-4635-93c8-8c470d14c5ad" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('5f79ce7c-d21e-4d38-8301-108d6baa18c6');
+var element = document.getElementById('d23e17a2-3e51-4635-93c8-8c470d14c5ad');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "dc191ebe533546bc8043d29b988adb4c", "version_major": 2, "version_minor": 0}
@@ -25675,9 +25676,9 @@ var element = document.getElementById('5f79ce7c-d21e-4d38-8301-108d6baa18c6');
 
 
 
-<div id="e488b438-7579-4e3c-a830-bee13fed134b" class="jupyter-widgets jp-OutputArea-output ">
+<div id="f9209b5a-5569-4b8d-ad49-b88721526faa" class="jupyter-widgets jp-OutputArea-output ">
 <script type="text/javascript">
-var element = document.getElementById('e488b438-7579-4e3c-a830-bee13fed134b');
+var element = document.getElementById('f9209b5a-5569-4b8d-ad49-b88721526faa');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "52b00e5da59e41428e9aa2d421fa513a", "version_major": 2, "version_minor": 0}
@@ -25696,7 +25697,7 @@ var element = document.getElementById('e488b438-7579-4e3c-a830-bee13fed134b');
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">results_some_p</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">results_some_p</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -25710,7 +25711,7 @@ var element = document.getElementById('e488b438-7579-4e3c-a830-bee13fed134b');
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;mako_r&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;mako_r&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">results</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Solver&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">)</span>
 </pre></div>
 
@@ -26812,7 +26813,7 @@ z
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">results_many_p</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;results/linear-regression.csv&#39;</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">results_many_p</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;results/linear-regression.csv&#39;</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">results_many_p</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Solver&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
